@@ -2,7 +2,7 @@
 
 #### Introduction
 
-* __lwt__ is a light-weight-thread, which is an user-level non-preemptive multi-threading library for GNU environment.
+* __lwt__ stands for light-weight-threading, which is an user-level non-preemptive multi-threading library for GNU environment.
 
 * This is a threading library that provides some API similar to POSIX Threads (PThread).
 
