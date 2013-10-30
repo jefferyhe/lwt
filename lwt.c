@@ -110,7 +110,7 @@ void *lwt_join(lwt_t thread)
 	free(thread);
 	return temp;
 }
-
+/*
 void __lwt_dispatch(lwt_t n, lwt_t c)	//next, current
 {
 	__asm__ __volatile__(	
@@ -127,11 +127,32 @@ void __lwt_dispatch(lwt_t n, lwt_t c)	//next, current
 		"popal"
 		:
 		: "r"(n->p_ins), "r"(n->p_stack)
+		:"cc","memory"
 	);
 	//for switching back to old thread, nested?
 	current_tcb = des_tcb;
 	return;	
 }
+*/
+
+void __lwt_dispatch(lwt_t n, lwt_t c)	//next, current
+{
+	__asm__ __volatile__(	
+		"pushal\n\t" 						//PUSH ALL other register
+		"movl $1f, (%%ecx)\n\t" 				//save IP to TCB
+		"movl %%esp, (%%edx)\n\t"				//save SP to TCB
+		"movl %%ebx, %%esp\n\t"
+		"jmp *%%eax\n\t"						//recover the IP
+		"1:\n\t"							//LABEL
+		"popal"
+		:: "c"(&c->p_ins), "d"(&c->p_stack),"a"(n->p_ins),"b"(n->p_stack)
+		:"cc","memory"
+	);
+	//for switching back to old thread, nested?
+	current_tcb = des_tcb;
+	return;	
+}
+
 void lwt_die(void *data)
 {
 	//seriously, prevent when joining(A), the finish of B changes the state of main thread
@@ -185,7 +206,7 @@ lwt_t lwt_create(lwt_fn_t fn, void *data)
 	new->id = lwt_counter;
 	new->p_ins = &__lwt_start;
 	new->p_stack_frame = malloc(STACK_SIZE); 		//for free stack
-	new->p_stack = new->p_stack_frame + STACK_SIZE; //to avoid some unpredicted fault
+	new->p_stack = new->p_stack_frame + STACK_SIZE-4; //to avoid some unpredicted fault
 	new->state = _TCB_ACTIVE;
 	new->parent_id = current_tcb->id;
 	
