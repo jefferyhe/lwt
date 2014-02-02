@@ -4,7 +4,7 @@
 
 * __lwt__ stands for light-weight-threading, which is an user-level non-preemptive multi-threading library for GNU environment.
 
-* This is a threading library that provides some API similar to POSIX Threads (PThread).
+* This is a threading library that provides more that 20 API functions, includes threads creation, threads interaction, threads lifetime management, threads synchronous and asynchronous communication channels, channel groups management, etc.
 
 * User-level means the switching between threads does NOT trap into kernel mode of operating system.
 
