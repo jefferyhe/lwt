@@ -27,7 +27,7 @@
 
 #### APIs for user:
 
-1. __lwt_t lwt_create(lwt_fn_t)__ as with pthread_create, this function calls the passed in _fn()_ with the argument passed in as _data_. It will return the lwt_t mentioned above.
+1. __lwt t lwt create(lwt fn t fn, void *data, lwt flags t flags)__ as with pthread_create, this function calls the passed in _fn()_ with the argument passed in as _data_. It will return the lwt_t mentioned above.
 
 2. __void *lwt_join(lwt_t)__ is equivalent of pthread_join. It blocks current thread for waiting the refereced lwt to
 terminate, and returns the _void *_ that the thread itself returned from its _lwt_fn_t_, ro that passed to _lwt_die()_.
@@ -45,6 +45,38 @@ terminate, and returns the _void *_ that the thread itself returned from its _lw
 5. __lwt_t lwt_current(void)__ returns the currently active lwt (that is calling this function).
 
 6. __int lwt_id(lwt_t)__ returns the unique identifier for the thread. I temporarily ignore integer overflow of such a counter.
+
+7. __lwt chan t lwt chan(int sz)__ 
+
+8. __void lwt chan deref(lwt chan t c)__
+
+9. __int lwt snd(lwt chan t c, void *data)__
+
+10. __void *lwt rcv(lwt chan t c)__
+
+11. __void lwt snd chan(lwt chan t c, lwt chan t sending)__
+
+12. __lwt chan t lwt rcv chan(lwt chan t c)__
+
+13. __int lwt info(lwt info t type)__
+
+14. __lwt cgrp t lwt cgrp(void)__
+
+15. __int lwt cgrp free(lwt cgrp t)__
+
+16. __int lwt cgrp add(lwt cgrp t, lwt chan t)__
+
+17. __int lwt cgrp rem(lwt cgrp t, lwt chan t)__
+
+18. __lwt chan t lwt cgrp wait(lwt cgrp t)__ 
+
+19. __void lwt chan mark set(lwt cgrp t, void *)__
+
+20. __void *lwt chan mark get(lwt cgrp t)__   
+
+
+
+
 
 
 #### Invisible system APIs:
