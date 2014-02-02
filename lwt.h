@@ -1,5 +1,5 @@
 #ifndef LWT_H
-#define LWT_H
+	#define LWT_H
 #endif
 
 #include <stddef.h>
@@ -21,11 +21,15 @@
 
 typedef void *(*lwt_fn_t) (void *) ;
 
+typedef int lwt_flags_t;
+lwt_flags_t flags;
+
 typedef enum 
 {
 	_TCB_ACTIVE,
 	_TCB_DEAD,
 	_TCB_BLOCKED,
+	_TCB_WAITING,			//for channel communication, SENDER blocked
 	//_TCB_JOINING,
 	//_TCB_JOINED
 } _TCB_STATE;
@@ -44,6 +48,7 @@ typedef struct lwt_tcb
 	struct lwt_tcb *joining; //track the one who joining this
 	struct lwt_tcb *target;
 
+	lwt_flags_t flags;
 	lwt_fn_t para_fn;
 	void *para_data;
 
@@ -61,22 +66,19 @@ typedef int lwt_info_t;
 lwt_info_t LWT_INFO_NTHD_RUNNABLE;
 lwt_info_t LWT_INFO_NTHD_ZOMBIES;
 lwt_info_t LWT_INFO_NTHD_BLOCKED;
+lwt_info_t LWT_INFO_NCHAN;
+lwt_info_t LWT_INFO_NSNDING;
+lwt_info_t LWT_INFO_NRCVING;
 
 //pass by global variable
 lwt_fn_t para_fn;			//function pointer
 void *para_data;			//passed data
 
 int lwt_id(lwt_t spe_tcb);
-
 lwt_t lwt_current(void);
-
 int lwt_yield(lwt_t destination);
-
 void *lwt_join(lwt_t thread);
-
 void lwt_die(void *data);
-
-lwt_t lwt_create(lwt_fn_t fn, void *data);
-
+lwt_t lwt_create(lwt_fn_t fn, void *data, lwt_flags_t flags);
 int lwt_info(lwt_info_t t);
 
