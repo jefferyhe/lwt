@@ -27,7 +27,7 @@
 
 #### APIs for user:
 
-1. __lwt t lwt create(lwt fn t fn, void *data, lwt flags t flags)__ as with pthread_create, this function calls the passed in _fn()_ with the argument passed in as _data_. It will return the lwt_t mentioned above.
+1. __lwt_t lwt create(lwt_fn_t fn, void *data, lwt_flags t flags)__ as with pthread_create, this function calls the passed in _fn()_ with the argument passed in as _data_. It will return the lwt_t mentioned above.
 
 2. __void *lwt_join(lwt_t)__ is equivalent of pthread_join. It blocks current thread for waiting the refereced lwt to
 terminate, and returns the _void *_ that the thread itself returned from its _lwt_fn_t_, ro that passed to _lwt_die()_.
@@ -46,33 +46,33 @@ terminate, and returns the _void *_ that the thread itself returned from its _lw
 
 6. __int lwt_id(lwt_t)__ returns the unique identifier for the thread. I temporarily ignore integer overflow of such a counter.
 
-7. __lwt chan t lwt chan(int sz)__ 
+7. __lwt_chan_t lwt_chan(int sz)__ 
 
-8. __void lwt chan deref(lwt chan t c)__
+8. __void lwt_chan_deref(lwt_chan_t c)__
 
-9. __int lwt snd(lwt chan t c, void *data)__
+9. __int lwt_snd(lwt_chan_t c, void *data)__
 
-10. __void *lwt rcv(lwt chan t c)__
+10. __void *lwt_rcv(lwt_chan_t c)__
 
-11. __void lwt snd chan(lwt chan t c, lwt chan t sending)__
+11. __void lwt_snd_chan(lwt_chan_t c, lwt_chan_t sending)__
 
-12. __lwt chan t lwt rcv chan(lwt chan t c)__
+12. __lwt_chan_t lwt_rcv_chan(lwt_chan_t c)__
 
-13. __int lwt info(lwt info t type)__
+13. __int lwt_info(lwt_info_t type)__
 
-14. __lwt cgrp t lwt cgrp(void)__
+14. __lwt_cgrp_t lwt_cgrp(void)__
 
-15. __int lwt cgrp free(lwt cgrp t)__
+15. __int lwt_cgrp_free(lwt_cgrp_t cgrp)__
 
-16. __int lwt cgrp add(lwt cgrp t, lwt chan t)__
+16. __int lwt_cgrp_add(lwt_cgrp_t cgrp, lwt_chan_t c)__
 
-17. __int lwt cgrp rem(lwt cgrp t, lwt chan t)__
+17. __int lwt_cgrp_rem(lwt_cgrp_t cgrp, lwt_chan_t c)__
 
-18. __lwt chan t lwt cgrp wait(lwt cgrp t)__ 
+18. __lwt_chan_t lwt_cgrp_wait(lwt_cgrp_t cgrp)__ 
 
-19. __void lwt chan mark set(lwt cgrp t, void *)__
+19. __void lwt_chan_mark_set(lwt_cgrp_t cgrp, void *)__
 
-20. __void *lwt chan mark get(lwt cgrp t)__   
+20. __void *lwt_chan_mark_get(lwt_cgrp_t cgrp)__   
 
 
 
